@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using SalesWeb.Domain.Entities;
 using SalesWeb.Domain.Interfaces;
 
@@ -14,6 +15,8 @@ public class CustomerService
 
     public async Task<Customer> CreateCustomer(string firstName, string lastName, string phone, string email)
     {
+        ValidateCustomerDetails(firstName, lastName, email, phone);
+        
         var customer = new Customer
         {
             FirstName = firstName,
@@ -21,8 +24,32 @@ public class CustomerService
             Phone = phone,
             Email = email
         };
-        // to Add Validation
+        
         await _customerRepository.CreateAsync(customer);
         return customer;
+    }
+    
+    private void ValidateCustomerDetails(string firstName, string lastName, string email, string phone)
+    {
+        // Note this would use a validation package like Fluent in the UI Layer and basic validation here
+        if (string.IsNullOrWhiteSpace(firstName))
+        {
+            throw new ArgumentException("First name is required.", nameof(firstName));
+        }
+
+        if (string.IsNullOrWhiteSpace(lastName))
+        {
+            throw new ArgumentException("Last name is required.", nameof(lastName));
+        }
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            throw new ArgumentException("Email is invalid.", nameof(email));
+        }
+
+        if (string.IsNullOrWhiteSpace(phone))
+        {
+            throw new ArgumentException("Phone is invalid.", nameof(phone));
+        }
     }
 }
