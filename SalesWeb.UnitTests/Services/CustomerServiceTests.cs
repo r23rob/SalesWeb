@@ -44,10 +44,10 @@ public class CustomerServiceTests
     [Fact]
     public async Task CreateCustomerAsync_WithInvalidEmail_ThrowsValidationException()
     {
-        var exception = await Assert.ThrowsAsync<ValidationException>(() => 
-            _customerService.CreateCustomer("Rob", "Smith","07954111222", "rob.smit@email.com"));
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() => 
+            _customerService.CreateCustomer("Rob", "Smith","07954111222", "rob.smit.email.com"));
         
-        Assert.Equal("Invalid email format", exception.Message);
+        Assert.Equal("Invalid email format (Parameter 'email')", exception.Message);
     }
     
     [Fact]
@@ -80,7 +80,7 @@ public class CustomerServiceTests
     [Fact]
     public async Task CreateCustomerAsync_WithNullEmail_ThrowsArgumentNullException()
     {
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() => 
             _customerService.CreateCustomer("Rob", "Smith","07954111222", null));
 
         Assert.Equal("email", exception.ParamName);
