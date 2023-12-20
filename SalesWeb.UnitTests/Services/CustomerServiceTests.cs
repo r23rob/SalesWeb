@@ -51,39 +51,30 @@ public class CustomerServiceTests
     }
     
     [Fact]
-    public async Task CreateCustomerAsync_WithNullFirstName_ThrowsArgumentNullException()
+    public async Task CreateCustomerAsync_WithNullFirstName_ThrowsArgumentException()
     {
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() => 
             _customerService.CreateCustomer(null, "Doe", "07954111222", "rob.smit@email.com"));
 
         Assert.Equal("firstName", exception.ParamName);
     }
     
     [Fact]
-    public async Task CreateCustomerAsync_WithNullLastName_ThrowsArgumentNullException()
+    public async Task CreateCustomerAsync_WithNullLastName_ThrowsArgumentException()
     {
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => 
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() => 
             _customerService.CreateCustomer("Rob", null, "07954111222", "rob.smit@email.com"));
 
-        Assert.Equal("firstName", exception.ParamName);
+        Assert.Equal("lastName", exception.ParamName);
     }
     
     [Fact]
-    public async Task CreateCustomerAsync_WithNullPhone_ThrowsArgumentNullException()
+    public async Task CreateCustomerAsync_WithNullPhone_ThrowsArgumentException()
     {
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => 
-            _customerService.CreateCustomer("Rob", "Smith","07954111222", "rob.smit@email.com"));
+        var exception = await Assert.ThrowsAsync<ArgumentException>(() => 
+            _customerService.CreateCustomer("Rob", "Smith",null, "rob.smit@email.com"));
 
-        Assert.Equal("firstName", exception.ParamName);
-    }
-    
-    [Fact]
-    public async Task CreateCustomerAsync_WithNullMobile_ThrowsArgumentNullException()
-    {
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => 
-            _customerService.CreateCustomer("Rob", "Smith","07954111222", "rob.smit@email.com"));
-
-        Assert.Equal("firstName", exception.ParamName);
+        Assert.Equal("phone", exception.ParamName);
     }
     
     [Fact]
@@ -92,6 +83,6 @@ public class CustomerServiceTests
         var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => 
             _customerService.CreateCustomer("Rob", "Smith","07954111222", null));
 
-        Assert.Equal("firstName", exception.ParamName);
+        Assert.Equal("email", exception.ParamName);
     }
 }
