@@ -4,7 +4,7 @@ using SalesWeb.Domain.Interfaces;
 
 namespace SalesWeb.Domain.Services;
 
-public class CustomerService
+public class CustomerService : ICustomerService
 {
     private readonly ICustomerRepository _customerRepository;
 
